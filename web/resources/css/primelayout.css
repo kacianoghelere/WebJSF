@@ -1,0 +1,18 @@
+body {
+    font-size: 13px;
+    background: linear-gradient(#679FD2,#408DD2,#0C5DA5);
+}
+
+.ui-layout-pane {
+    /*    border: 0;*/
+    padding: 0px;
+}
+
+.ui-layout-north {
+    z-index:20 !important;
+    overflow:visible !important;;
+}
+
+.ui-layout-north .ui-layout-unit-content {
+    overflow:visible !important;
+}

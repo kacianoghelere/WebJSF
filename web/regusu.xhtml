@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="primelayout.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+
+
+        <p:tabView id="tabView" effect="slide" style="" >  
+
+            <p:tab id="tab1" title="Cadastrar">  
+                <h:form id="formCad" >
+
+                    <p:growl id="growl" sticky="true" showDetail="true"/>  
+
+                    <p:wizard flowListener="#{usuarioWizard.onFlowProcess}" 
+                              style="width: 500px; font-size: 14px;"
+                              nextLabel="Próximo" backLabel="Anterior"> 
+
+                        <p:tab id="access" title="Acesso">  
+                            <p:panel header="Dados para acesso">  
+                                <h:messages errorClass="error"/>  
+
+                                <h:panelGrid columns="2" cellspacing="5" columnClasses="label, value" styleClass="grid">                                                 
+
+                                    <h:outputText value="Nome *" />  
+                                    <p:inputText required="true" label="Nome"  
+                                                 value="#{usuarioWizard.usu.activeInfo.nome}" />                                                  
+
+                                    <h:outputText value="Login *" />  
+                                    <p:inputText required="true" label="Login"  
+                                                 value="#{usuarioWizard.usu.login}" />  
+
+                                    <h:outputText value="Senha: *" />  
+                                    <p:password id="pass1" required="true"  label="Senha" value="#{usuarioWizard.usu.sen}" match="pass2" />
+
+                                    <h:outputText value="Senha: *" />  
+                                    <p:password id="pass2" required="true"  label="Senha" value="#{usuarioWizard.usu.sen}" />
+
+                                    <!--                                            <h:outputText value="Skip to last: " />  
+                                                                                <h:selectBooleanCheckbox value="{usuarioWizardskip}" />  -->
+                                </h:panelGrid>  
+                            </p:panel>  
+                        </p:tab>  
+
+                        <p:tab id="personal" title="Pessoal">  
+                            <p:panel header="Detalhes">  
+                                <h:messages errorClass="error"/>  
+
+                                <h:panelGrid columns="2" columnClasses="label, value" styleClass="grid">  
+
+                                    <h:outputText value="E-mail *" />                                                  
+                                    <p:inputText required="true" label="E-mail"  
+                                                 value="#{usuarioWizard.usu.activeInfo.email}" />  
+
+                                    <h:outputText value="Telefone *" />                                                  
+                                    <p:inputText required="true" label="Telefone"  
+                                                 value="#{usuarioWizard.usu.activeInfo.fone}" />  
+
+                                    <!--                                            <h:outputText value="Skip to last: " />  
+                                                                                <h:selectBooleanCheckbox value="{usuarioWizardskip}" />  -->
+                                </h:panelGrid>  
+                            </p:panel>  
+                        </p:tab>            
+
+                        <p:tab id="address" title="Endereço">  
+                            <p:panel header="Detalhes">  
+                                <h:messages errorClass="error"/>  
+
+                                <h:panelGrid columns="2" columnClasses="label, value" styleClass="grid">  
+
+                                    <h:outputText value="Rua: " />  
+                                    <p:inputText label="Rua"  
+                                                 value="#{usuarioWizard.usu.activeInfo.end.rua}" />  
+
+                                    <h:outputText value="Bairro:" />                                                  
+                                    <p:inputText label="Bairro"  
+                                                 value="#{usuarioWizard.usu.activeInfo.end.bairro}" />  
+
+                                    <h:outputText value="Numero: " />                                                  
+                                    <p:inputText label="Numero" style="width: 50px;" 
+                                                 value="#{usuarioWizard.usu.activeInfo.end.num}" />  
+
+                                    <h:outputText value="Complemento: " />                                                  
+                                    <p:inputText label="Complemento"  
+                                                 value="#{usuarioWizard.usu.activeInfo.end.compl}" />  
+
+                                    <h:outputText value="Cidade*:" />                                                  
+                                    <p:inputText required="true" label="Cidade"  
+                                                 value="#{usuarioWizard.usu.activeInfo.end.cidade}" />  
+
+                                    <h:outputText value="Estado*:" />                                                  
+                                    <p:inputText required="true" label="Estado"  
+                                                 value="#{usuarioWizard.usu.activeInfo.end.estado}" />  
+
+                                    <h:outputText value="Cep: " />                                                  
+                                    <p:inputText label="Cep"  
+                                                 value="#{usuarioWizard.usu.activeInfo.end.cep}" />  
+
+                                    <!--                                            <h:outputText value="Skip to last: " />  
+                                                                                <h:selectBooleanCheckbox value="#{usuarioWizardskip}" />  -->
+                                </h:panelGrid>  
+                            </p:panel>  
+                        </p:tab>
+
+                        <p:tab id="confirm" title="Finalizar">  
+                            <p:panel header="Confirmação">  
+
+                                <h:panelGrid id="confirmation" columns="6">  
+                                    <h:outputText value="Login: " />  
+                                    <h:outputText styleClass="outputLabel"  
+                                                  value="#{usuarioWizard.usu.login}" />  
+
+                                    <h:outputText />  
+                                    <h:outputText />  
+                                </h:panelGrid>  
+
+                                <p:commandButton value="Salvar" update="growl"   
+                                                 actionListener="#{usuarioWizard.save(actionEvent)}"/>  
+
+                            </p:panel>  
+                        </p:tab>  
+                    </p:wizard>  
+
+                </h:form>  
+            </p:tab>  
+
+            <p:tab id="tab2" title="Cadastrados">  
+                <h:form id="form">
+                    <p:dataTable value="#{usuarioMBean.udm}" var="usu"
+                                 paginator="true" rows="50"  
+                                 paginatorPosition="bottom"
+                                 style="width: 500px;"
+                                 rowsPerPageTemplate="50,25"
+                                 selection="#{usuarioMBean.selectedUsu}"
+                                 >
+                        <p:column headerText="Selecionar" selectionMode="single" style="width: 4%"/>
+
+                        <f:facet name="header">Usuários</f:facet>                                       
+                        <p:column headerText="ID" sortBy="#{usu.id}" filterBy="#{usu.id}">
+                            <h:outputText value="#{usu.id}" />
+                        </p:column>
+                        <p:column headerText="Login" sortBy="#{usu.login}" filterBy="#{usu.login}" >
+                            <h:outputText value="#{usu.login}" />
+                        </p:column>
+                        <!--                            <p:column headerText="ID Info" >
+                                                        <h:outputText value="{usu.id_usu_usuarioInfo}" />
+                                                    </p:column>-->
+                        <f:facet name="footer">
+                            <p:commandButton id="viewButton" value="View" icon="ui-icon-search"  
+                                             update=":tabView:form:dialog" oncomplete="PF('usuDialog').show()"/> 
+                        </f:facet>
+                    </p:dataTable>
+
+                    <p:dialog id="dialog" header="Detalhes" widgetVar="usuDialog" 
+                              resizable="false" closable="true" width="200" 
+                              showEffect="fold" hideEffect="fold" position="center">  
+
+                        <h:panelGrid id="display" columns="2" cellpadding="2">  
+                            <f:facet name="header">#{usuarioMBean.selectedUsu.login}</f:facet>
+
+                            <h:outputText value="ID:" />  
+                            <h:outputText value="#{usuarioMBean.selectedUsu.id}" />  
+
+                            <h:outputText value="Login:" />  
+                            <h:outputText value="#{usuarioMBean.selectedUsu.login}" /> 
+
+                            <f:facet name="footer">Teste</f:facet>
+                        </h:panelGrid>  
+
+                    </p:dialog> 
+                    
+                </h:form>  
+                
+            </p:tab>  
+
+        </p:tabView>  
+
+    </ui:define>
+
+</ui:composition>

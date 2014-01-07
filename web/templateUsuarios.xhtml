@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="./template.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="content">
+        <h:body>
+            <h:form id="formBar">
+                <p:menubar>
+                    <p:menuitem value="Novo" url="http://www.primefaces.org" icon="ui-icon-star" />  
+                    <p:menuitem value="Registrados" url="http://www.primefaces.org" icon="ui-icon-person" />  
+                    <p:menuitem value="Perfis" url="http://www.primefaces.org" icon="ui-icon-locked" />  
+                </p:menubar>
+            </h:form>
+            <ui:insert name="data">
+                Página principal
+                Aqui é o espaço destinado ao conteúdo do seu projeto.
+            </ui:insert> 
+        </h:body>
+    </ui:define>
+
+</ui:composition>

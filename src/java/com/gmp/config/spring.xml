@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+    <!-- habilita a configuracao por annotations -->
+    <context:annotation-config />
+
+    <!-- define os pacotes/subpacotes que onde serao procurados beans do spring -->
+    <context:component-scan base-package="com.guampp" />
+
+    <!-- Parametros de conexao com o banco de dados -->
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.postgresql.Driver" />
+        <property name="url" value="jdbc:postgresql://localhost:5432/Guampp" />
+        <property name="username" value="kaciano" />
+        <property name="password" value="d0v4hk11n" />
+    </bean>
+
+    <!-- Propriedades do hibernate -->
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean" >
+
+        <property name="dataSource" ref="dataSource" />
+        <property name="exposeTransactionAwareSessionFactory">
+            <value>true</value>
+        </property>
+
+        <property name="annotatedClasses">
+            <list>
+                <value>com.gmp.obj.Usuario</value>                
+                <value>com.gmp.obj.UsuarioInfo</value>                
+                <value>com.gmp.obj.UsuarioTipo</value>                
+                <value>com.gmp.obj.Empresa</value>                
+                <value>com.gmp.obj.EmpresaInfo</value>                
+                <value>com.gmp.obj.EmpresaTipo</value>   
+                <value>com.gmp.obj.Endereco</value>   
+                <value>com.gmp.obj.Menu</value>   
+                <value>com.gmp.obj.MenuItens</value>   
+                <value>com.gmp.obj.Perfis</value>   
+                <value>com.gmp.obj.PerfisAcesso</value>                                
+            </list>
+        </property>
+
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
+                <prop key="hibernate.transaction.factory_class">org.hibernate.transaction.JDBCTransactionFactory</prop>
+                <prop key="current_session_context_class">thread</prop>
+                <prop key="hibernate.show_sql">false</prop>
+                <prop key="connection.pool_size">5</prop>
+                <prop key="hibernate.use_outer_join">true</prop>
+                <prop key="hibernate.max_fetch_depth">1</prop>
+                <prop key="hibernate.jdbc.batch_size">0</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+            </props>
+        </property>
+
+    </bean>
+
+    <!-- Injeta uma sessao do hibernate -->
+    <bean id="hibernateTemplate" 
+          class="org.springframework.orm.hibernate3.HibernateTemplate">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean> 
+
+    <!-- DAOs -->
+    <bean id="usuDAO" 
+          class="com.gmp.dao.impl.UsuarioDAO">
+        <property name="hibernateTemplate" ref="hibernateTemplate" />
+    </bean>
+    <bean id="usuinfoDAO" 
+          class="com.gmp.dao.impl.UsuarioInfoDAO">
+        <property name="hibernateTemplate" ref="hibernateTemplate" />
+    </bean>
+    <bean id="usutipoDAO" 
+          class="com.gmp.dao.impl.UsuarioTipoDAO">
+        <property name="hibernateTemplate" ref="hibernateTemplate" />
+    </bean>
+    <bean id="empDAO" 
+          class="com.gmp.dao.impl.EmpresaDAO">
+        <property name="hibernateTemplate" ref="hibernateTemplate" />
+    </bean>
+    <bean id="empinfoDAO" 
+          class="com.gmp.dao.impl.EmpresaInfoDAO">
+        <property name="hibernateTemplate" ref="hibernateTemplate" />
+    </bean>
+    <bean id="emptipoDAO" 
+          class="com.gmp.dao.impl.EmpresaTipoDAO">
+        <property name="hibernateTemplate" ref="hibernateTemplate" />
+    </bean>
+    <bean id="endDAO" 
+          class="com.gmp.dao.impl.EnderecoDAO">
+        <property name="hibernateTemplate" ref="hibernateTemplate" />
+    </bean>
+    <bean id="menuDAO" 
+          class="com.gmp.dao.impl.MenuDAO">
+        <property name="hibernateTemplate" ref="hibernateTemplate" />
+    </bean>
+    <bean id="menuitensDAO" 
+          class="com.gmp.dao.impl.MenuItensDAO">
+        <property name="hibernateTemplate" ref="hibernateTemplate" />
+    </bean>
+    <bean id="perfilDAO" 
+          class="com.gmp.dao.impl.PerfisDAO">
+        <property name="hibernateTemplate" ref="hibernateTemplate" />
+    </bean>
+    <bean id="perfisacessoDAO" 
+          class="com.gmp.dao.impl.PerfisAcessoDAO">
+        <property name="hibernateTemplate" ref="hibernateTemplate" />
+    </bean>
+</beans>
